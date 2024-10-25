@@ -1,8 +1,8 @@
 # Design Patterns
-> Design patterns are typical *solutions to common problems in software design*. Each pattern is like a blueprint 
+> Design patterns are typical ***solutions to common problems in software design***. Each pattern is like a blueprint 
 > that you can customize to solve a particular design problem in your code.
 > 
-#### > _Big thank to M. Mohammed Youssfi_
+#### > _Big thank to Professor M. Mohammed Youssfi_
 
 ![Design_patterns_image](img/design_pattern.png)
 
