@@ -7,11 +7,7 @@
         <option value="$PROJECT_DIR$/strategy demo/pom.xml" />
         <option value="$PROJECT_DIR$/Observer/pom.xml" />
         <option value="$PROJECT_DIR$/Strategy/pom.xml" />
-        <option value="$PROJECT_DIR$/Decorator/pom.xml" />
-        <option value="$PROJECT_DIR$/Composite/pom.xml" />
-        <option value="$PROJECT_DIR$/Proxy/pom.xml" />
-        <option value="$PROJECT_DIR$/Template_Method/pom.xml" />
-        <option value="$PROJECT_DIR$/State/pom.xml" />
+        <option value="$PROJECT_DIR$/Builder/pom.xml" />
         <option value="$PROJECT_DIR$/Singleton/pom.xml" />
       </list>
     </option>
