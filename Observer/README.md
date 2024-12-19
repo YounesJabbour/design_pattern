@@ -1,105 +1,128 @@
+# Pattern de Conception Observateur
 
-
-
-# Observer Design Pattern
-
-The **Observer Design Pattern** is a behavioral pattern used to manage relationships between a subject and multiple observers. This pattern defines a one-to-many dependency between objects, where a change in the subject object automatically notifies and updates all observer objects. This helps in decoupling the subject from the observers, making the system more flexible and easy to maintain.
+Le **Pattern de Conception Observateur** est un pattern comportemental utilisé pour gérer les relations entre un sujet et plusieurs observateurs. Ce pattern définit une dépendance un-à-plusieurs entre les objets, où un changement dans l'objet sujet notifie et met automatiquement à jour tous les objets observateurs. Cela aide à découpler le sujet des observateurs, rendant le système plus flexible et facile à maintenir.
 
 ## Structure
 
-The Observer pattern typically has these components:
+Le pattern Observateur comporte généralement les composants suivants :
 
-1. **Subject**: Manages and updates a list of observers, notifies them of changes.
-2. **Observer**: Receives updates from the subject and responds accordingly.
-3. **ConcreteSubject**: Implements the subject interface and maintains the state.
-4. **ConcreteObserver**: Implements the observer interface and updates based on subject notifications.
+1. **Sujet** : Gère et met à jour une liste d'observateurs, les notifie des changements.
+2. **Observateur** : Reçoit les mises à jour du sujet et réagit en conséquence.
+3. **Sujet Concret** : Implémente l'interface du sujet et maintient l'état.
+4. **Observateur Concret** : Implémente l'interface de l'observateur et se met à jour en fonction des notifications du sujet.
 
-![Observer Pattern Diagram](https://example.com/path-to-image) <!-- Replace with actual image link -->
+![Diagramme du Pattern Observateur](img/img.png)
 
-## When to Use Observer Pattern
+## Quand Utiliser le Pattern Observateur
 
-1. **When multiple objects need to update in response to changes in a single object.**
-    - Example: A news website where updates to the main news feed notify and refresh subscribers' news pages.
+1. **Lorsque plusieurs objets doivent se mettre à jour en réponse aux changements d'un seul objet.**
+    - Exemple : Un site d'actualités où les mises à jour du fil d'actualités principal notifient et rafraîchissent les pages des abonnés.
 
-2. **When you want to decouple objects to make them more modular and independent.**
-    - Example: An inventory system where changes in product quantities automatically update customer notifications, supplier inventory, etc.
+2. **Lorsque vous souhaitez découpler les objets pour les rendre plus modulaires et indépendants.**
+    - Exemple : Un système d'inventaire où les changements dans les quantités de produits mettent automatiquement à jour les notifications des clients, l'inventaire des fournisseurs, etc.
 
-3. **Event-driven systems where changes in one part of the application should trigger actions elsewhere.**
-    - Example: Chat applications where sending a message notifies all active users in the chat.
+3. **Systèmes basés sur les événements où les changements dans une partie de l'application doivent déclencher des actions ailleurs.**
+    - Exemple : Applications de chat où l'envoi d'un message notifie tous les utilisateurs actifs dans le chat.
 
-## Real-World Example: Weather Station
+## Exemple du Monde Réel : Station Météo
 
-Consider a weather station system that notifies multiple devices (e.g., mobile apps, display screens) whenever weather data is updated.
+Considérons un système de station météo qui notifie plusieurs dispositifs (par exemple, applications mobiles, écrans d'affichage) chaque fois que les données météorologiques sont mises à jour.
 
-- **Subject**: Weather Station
-- **Observers**: Display screens, Mobile apps, etc.
+- **Sujet** : Station Météo
+- **Observateurs** : Écrans d'affichage, Applications mobiles, etc.
 
-## UML Class Diagram
+## Diagramme UML
 
-The following UML class diagram shows how the Observer Pattern is structured:
+Le diagramme UML suivant montre comment le Pattern Observateur est structuré :
 
-![Design_patterns_Observer_image](img/img.png)
+![Diagramme UML du Pattern Observateur](img/img.png)
 
-## Code Example
+## Exemple de Code
 
-Here's a sample Java implementation of the Observer Pattern:
+Voici une implémentation Java du Pattern Observateur :
 
 ```java
-// Subject interface
-interface Subject {
-    void registerObserver(Observer o);
-    void removeObserver(Observer o);
+// Interface Observable
+public interface Observable {
+    void addObserver(Observer observer);
+    void removeObserver(Observer observer);
     void notifyObservers();
 }
 
-// Concrete Subject
-class WeatherData implements Subject {
-    private List<Observer> observers = new ArrayList<>();
-    private float temperature;
+// Interface Observer
+public interface Observer {
+    void update(int state);
+}
+
+// Observateur Concret : Couloir
+public class Couloir implements Observer {
+    @Override
+    public void update(int state) {
+        System.out.println("Couloir: " + state);
+    }
+}
+
+// Observateur Concret : Jardin
+public class Garden implements Observer {
+    @Override
+    public void update(int state) {
+        System.out.println("Garden: " + state);
+    }
+}
+
+// Sujet Concret : Joueur
+import java.util.ArrayList;
+
+public class Player implements Observable {
+    public ArrayList<Observer> observerArrayList = new ArrayList<>();
+
+    private int score;
 
     @Override
-    public void registerObserver(Observer o) {
-        observers.add(o);
+    public void addObserver(Observer observer) {
+        observerArrayList.add(observer);
     }
 
     @Override
-    public void removeObserver(Observer o) {
-        observers.remove(o);
+    public void removeObserver(Observer observer) {
+        observerArrayList.remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for (Observer observer : observers) {
-            observer.update(temperature);
+        for (Observer observer : observerArrayList) {
+            observer.update(this.getScore());
         }
     }
 
-    public void setTemperature(float temperature) {
-        this.temperature = temperature;
+    public void setScore(int score) {
+        this.score = score;
         notifyObservers();
     }
-}
 
-// Observer interface
-interface Observer {
-    void update(float temperature);
-}
-
-// Concrete Observer
-class MobileApp implements Observer {
-    @Override
-    public void update(float temperature) {
-        System.out.println("Mobile app notified. Temperature is now: " + temperature);
+    public int getScore() {
+        return score;
     }
 }
 
-// Usage
+// Utilisation
 public class Main {
     public static void main(String[] args) {
-        WeatherData weatherStation = new WeatherData();
-        MobileApp mobileApp = new MobileApp();
+        // Observateurs
+        Camera camera = new Camera();
+        Couloir couloir = new Couloir();
+        Garden garden = new Garden();
 
-        weatherStation.registerObserver(mobileApp);
-        weatherStation.setTemperature(25.5f); // Updates mobile app with new temperature
+        Player p = new Player();
+
+        // Abonner les observateurs
+        p.addObserver(camera);
+        p.addObserver(couloir);
+        p.addObserver(garden);
+
+        // Changement du score du joueur
+        p.setScore(10);
+        p.setScore(20);
+        p.setScore(30);
     }
 }
