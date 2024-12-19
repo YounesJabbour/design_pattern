@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/Strategy/pom.xml" />
         <option value="$PROJECT_DIR$/Builder/pom.xml" />
         <option value="$PROJECT_DIR$/Singleton/pom.xml" />
+        <option value="$PROJECT_DIR$/adapter/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
